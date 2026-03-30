@@ -1,11 +1,15 @@
+from pathlib import Path
+import os
+
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
-import os
 
+#from articulate.utils.categories import categories
+from articulate import DATA_DIR
 # ── CONFIG ──────────────────────────────────────────────────────────────────
-BACKGROUND_IMAGE = "C:/Users/hmein/OneDrive/Documents/Articulate/basecard.jpg"
-OUTPUT_FOLDER    = "C:/Users/hmein/OneDrive/Documents/Articulate/pythoncards/"
+BACKGROUND_IMAGE = Path(DATA_DIR/ "basecard.jpg")
+OUTPUT_FOLDER    = Path(DATA_DIR/"pythoncards/")
 
 CARD_W = 857
 CARD_H = 550
@@ -15,7 +19,7 @@ PAGE_W, PAGE_H = A4
 MARGIN_X       = (PAGE_W - COLS * CARD_W) / 2
 MARGIN_Y       = (PAGE_H - ROWS * CARD_H) / 2
 
-WORD_FONT      = ("Helvetica-Bold", 50)
+WORD_FONT      = ("Times-Roman", 50)
 TEXT_COLOR     = colors.black
 
 CARD_PADDING   = 12
@@ -26,11 +30,11 @@ LABEL_SPACING  = 4     # extra vertical gap between labels (added to natural row
 # ── YOUR WORD LISTS ─────────────────────────────────────────────────────────
 categories = {
     "Person": ["Elvis", "Cleopatra", "Einstein", "Picasso", "Newton"],
-    "World":  ["Sahara", "Amazon", "Vatican", "Everest", "Havana"],
+    "World":  ["Sahara", "Canberra", "Vatican", "Ohio", "Havana"],
     "Object": ["Telescope", "Compass", "Abacus", "Lantern", "Anvil"],
     "Action": ["Juggling", "Surfing", "Knitting", "Skydiving", "Fencing"],
-    "Nature":  ["Monsoon", "Magma", "Eclipse", "Tundra", "Quasar"],
-    "Random": ["Kazoo", "Platypus", "Haiku", "Limerick", "Bonsai"],
+    "Nature":  ["Koala", "Platyus", "Toad grass", "Zebra", "Stick"],
+    "Random": ["Kazoo", "Platitude", "Haiku", "Limerick", "Bonsai"],
 }
 
 # ── DRAW A SINGLE CARD ──────────────────────────────────────────────────────
