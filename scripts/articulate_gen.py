@@ -5,11 +5,13 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 
-from articulate.utils.io import csv_to_dict, folder_to_sheets
+from articulate.utils.io import folder_to_sheets
+from articulate.utils.categories import MY_CATEGORIES
 from articulate import DATA_DIR
 # ── CONFIG ──────────────────────────────────────────────────────────────────
 BACKGROUND_IMAGES_PATH = Path(DATA_DIR/ "basecards/")
 OUTPUT_FOLDER    = Path(DATA_DIR/ "pythoncards/")
+SHEETS_FOLDER = Path(DATA_DIR/ "pythoncards/sheets/")
 CATEGORIES_FPATH = Path(DATA_DIR /'categories_hm.csv')
 
 BACKGROUND_IMAGES = sorted(
@@ -32,7 +34,7 @@ VERTICAL_OFFSET = -8    # shift all labels up (+) or down (-) from centre
 LABEL_SPACING  = 4     # extra vertical gap between labels (added to natural row height)
 
 # ── YOUR WORD LISTS ─────────────────────────────────────────────────────────
-categories = csv_to_dict(CATEGORIES_FPATH)
+categories = MY_CATEGORIES
 
 # ── DRAW A SINGLE CARD ──────────────────────────────────────────────────────
 def draw_card(c, card_index, background_image):
@@ -85,6 +87,5 @@ def generate_pdfs(output_folder):
 generate_pdfs(OUTPUT_FOLDER)
 
 folder_to_sheets(
-    OUTPUT_FOLDER,
-    OUTPUT_FOLDER / 'sheets/'
+    OUTPUT_FOLDER, SHEETS_FOLDER
 )
