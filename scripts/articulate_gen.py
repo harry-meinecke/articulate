@@ -5,7 +5,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 
-from articulate.utils.io import csv_to_dict, concatenate_cards
+from articulate.utils.io import csv_to_dict, folder_to_sheets
 from articulate import DATA_DIR
 # ── CONFIG ──────────────────────────────────────────────────────────────────
 BACKGROUND_IMAGES_PATH = Path(DATA_DIR/ "basecards/")
@@ -84,7 +84,7 @@ def generate_pdfs(output_folder):
 
 generate_pdfs(OUTPUT_FOLDER)
 
-concatenate_cards(
+folder_to_sheets(
     OUTPUT_FOLDER,
-    OUTPUT_FOLDER
+    OUTPUT_FOLDER / 'sheets/'
 )

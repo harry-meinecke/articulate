@@ -43,9 +43,12 @@ def cards_to_sheets(
 
     cards_per_sheet = cols * rows
     writer = PdfWriter()
-
-    # ── Chunk cards into sheets ───────────────────────────────────────────────
+# ── Chunk cards into sheets ───────────────────────────────────────────────
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    
     for sheet_idx in range(math.ceil(len(card_paths) / cards_per_sheet)):
+        writer = PdfWriter()
         sheet_page = writer.add_blank_page(width=sheet_w, height=sheet_h)
 
         chunk = card_paths[
@@ -56,24 +59,23 @@ def cards_to_sheets(
             col = slot % cols
             row = slot // cols
 
-            # PDF y-axis: origin at bottom-left, so row 0 → top of sheet
             x = margin_pt + col * (card_w + gap_pt)
             y = sheet_h - margin_pt - (row + 1) * card_h - row * gap_pt
 
             card_reader = PdfReader(card_path)
             card_page   = card_reader.pages[0]
 
-            # merge_transformed_page places the card at (x, y) with no scaling
             sheet_page.merge_transformed_page(
-            card_page,
-            pypdf_translate(x, y),
+                card_page,
+                pypdf_translate(x, y),
             )
-    with open(output_path, "wb") as f:
-        writer.write(f)
+
+        sheet_file = output_path.parent / f"{output_path.stem}_{sheet_idx + 1:03d}.pdf"
+        with open(sheet_file, "wb") as f:
+            writer.write(f)
 
     total_sheets = math.ceil(len(card_paths) / cards_per_sheet)
-    print(f"Written {total_sheets} sheet(s) → {output_path}")
-
+    print(f"Written {total_sheets} sheet(s) → {output_path.parent}")
 
 # ── Helper: build a translation-only CTM ─────────────────────────────────────
 def pypdf_translate(tx: float, ty: float):
