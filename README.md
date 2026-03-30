@@ -1,2 +1,2 @@
 # articulate
-Repo for generating custom articulat cards
+Repo for generating custom articulate cards
