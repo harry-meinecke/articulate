@@ -4,9 +4,6 @@ import math
 import glob
 import os
 from pypdf import PdfReader, PdfWriter
-from pypdf.generic import (
-    ArrayObject, FloatObject, NameObject, RectangleObject
-)
 
 
 def cards_to_sheets(
