@@ -12,7 +12,7 @@ MY_CATEGORIES = {
         "Stray Kids", "NewJeans","TWICE", "IVE",
         # Gen Z Actors/Film
         "Zendaya", "Timothée Chalamet", "Jacob Elordi", "Sydney Sweeney", "Florence Pugh",
-        "Tom Holland",  "Phoebe Dynevor", "Ayo Edebiri", "Jenna Ortega",
+        "Tom Holland", "Ayo Edebiri", "Jenna Ortega",
         # Streamers/YouTubers
         "MrBeast", "Kai Cenat", "Baby Gronk", "IShowSpeed", "xQc",
         "Pokimane", "Adin Ross", "Logan Paul", "KSI",
@@ -20,8 +20,8 @@ MY_CATEGORIES = {
         # TikTok/Social
         "Addison Rae", "Charli D'Amelio",
         # Australian Celebs
-        "Sam Kerr", "Nick Kyrgios", "Ash Barty", "Patty Mills", "Raygunn"
-        "Kylie and Jackie O", "The Kid LAROI", "Sia", "Tones and I",
+        "Sam Kerr", "Nick Kyrgios", "Ash Barty", "Patty Mills", "Raygunn",
+        "Kylie and Jackie O", "The Kid LAROI",  "Tones and I",
         "Amyl and the Sniffers", 
         "Hamish Blake", "Andy Lee", "Wil Anderson"
         "Abbie Chatfield", "Matt Rife",
@@ -29,7 +29,7 @@ MY_CATEGORIES = {
         "Anthony Albanese", "Peter Dutton", "Penny Wong", "Adam Bandt", "David Littleproud",
         "Jim Chalmers", "Tanya Plibersek", "Richard Marles", "Jacinta Price", 
         "Scott Morrison", "Malcolm Turnbull", "Julia Gillard", "Kevin Rudd", "Bob Katter",
-        "Pauline Hanson", "David Pocock", "Zoe Daniel", "Paul Keating"
+        "Pauline Hanson", "David Pocock", "Zoe Daniel", "Paul Keating",
         # Political - International
         "Benjamin Netanyahu", "Keir Starmer", "Donald Trump", "Joe Biden", "Kamala Harris",
         "Emmanuel Macron", "Olaf Scholz", "Giorgia Meloni", "Pedro Sánchez", "Mark Rutte",
@@ -362,8 +362,8 @@ MY_CATEGORIES = {
 }
 
 if __name__ == "__main__":
-    for category, items in categories.items():
+    for category, items in MY_CATEGORIES.items():
         print(f"{category}: {len(items)} entries")
-    total = sum(len(v) for v in categories.values())
+    total = sum(len(v) for v in MY_CATEGORIES.values())
     print(f"\nTotal entries: {total}")
-    print(f"Categories: {len(categories)}")
+    print(f"MY_CATEGORIES: {len(MY_CATEGORIES)}")
