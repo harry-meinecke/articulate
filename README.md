@@ -54,7 +54,7 @@ This allows you to modify the code and immediately see changes without reinstall
 
 ---
 
-## 🚀 Usage
+## Usage
 
 Run scripts from the project root:
 

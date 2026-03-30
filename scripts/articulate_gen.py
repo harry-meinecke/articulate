@@ -5,12 +5,16 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 
-#from articulate.utils.categories import categories
+from articulate.utils.io import csv_to_dict, concatenate_cards
 from articulate import DATA_DIR
 # ── CONFIG ──────────────────────────────────────────────────────────────────
-BACKGROUND_IMAGE = Path(DATA_DIR/ "basecard.jpg")
-OUTPUT_FOLDER    = Path(DATA_DIR/"pythoncards/")
+BACKGROUND_IMAGES_PATH = Path(DATA_DIR/ "basecards/")
+OUTPUT_FOLDER    = Path(DATA_DIR/ "pythoncards/")
+CATEGORIES_FPATH = Path(DATA_DIR /'categories_hm.csv')
 
+BACKGROUND_IMAGES = sorted(
+    [p for p in BACKGROUND_IMAGES_PATH.glob("*") if p.suffix.lower() in [".jpg"]]
+)
 CARD_W = 857
 CARD_H = 550
 
@@ -28,19 +32,13 @@ VERTICAL_OFFSET = -8    # shift all labels up (+) or down (-) from centre
 LABEL_SPACING  = 4     # extra vertical gap between labels (added to natural row height)
 
 # ── YOUR WORD LISTS ─────────────────────────────────────────────────────────
-categories = {
-    "Person": ["Elvis", "Cleopatra", "Einstein", "Picasso", "Newton"],
-    "World":  ["Sahara", "Canberra", "Vatican", "Ohio", "Havana"],
-    "Object": ["Telescope", "Compass", "Abacus", "Lantern", "Anvil"],
-    "Action": ["Juggling", "Surfing", "Knitting", "Skydiving", "Fencing"],
-    "Nature":  ["Koala", "Platyus", "Toad grass", "Zebra", "Stick"],
-    "Random": ["Kazoo", "Platitude", "Haiku", "Limerick", "Bonsai"],
-}
+categories = csv_to_dict(CATEGORIES_FPATH)
 
 # ── DRAW A SINGLE CARD ──────────────────────────────────────────────────────
-def draw_card(c, card_index):
-    c.drawImage(BACKGROUND_IMAGE, 0, 0, width=CARD_W, height=CARD_H,
-                preserveAspectRatio=False, mask="auto")
+def draw_card(c, card_index, background_image):
+    c.drawImage(str(background_image), 0, 0,
+            width=CARD_W, height=CARD_H,
+            preserveAspectRatio=False, mask="auto")
 
     num_categories = len(categories)
     content_height = CARD_H - 2 * CARD_PADDING
@@ -67,13 +65,17 @@ def generate_pdfs(output_folder):
     os.makedirs(output_folder, exist_ok=True)
 
     num_cards = len(next(iter(categories.values())))
+    num_backgrounds = len(BACKGROUND_IMAGES)
 
     for i in range(num_cards):
         filename = f"card_{i+1:02d}.pdf"
         output_path = os.path.join(output_folder, filename)
 
+        # cycle through backgrounds if fewer than cards
+        background_image = BACKGROUND_IMAGES[i % num_backgrounds]
+
         c = canvas.Canvas(output_path, pagesize=(CARD_W, CARD_H))
-        draw_card(c, i)
+        draw_card(c, i, background_image)
         c.save()
 
         print(f"Saved: {output_path}")
@@ -81,3 +83,8 @@ def generate_pdfs(output_folder):
     print(f"\nDone — {num_cards} cards saved to '{output_folder}'")
 
 generate_pdfs(OUTPUT_FOLDER)
+
+concatenate_cards(
+    OUTPUT_FOLDER,
+    OUTPUT_FOLDER
+)
